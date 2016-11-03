@@ -1,2 +1,2 @@
 # munch
-simple food ordering system using node.js and mongodb
+Simple food ordering system using Node.js and MongoDB
