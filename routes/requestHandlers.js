@@ -4,7 +4,8 @@ let models = require('../models/models.js');
 
 // Models
 
-let Ingredients = models.Ingredients;
+let Ingredient = models.Ingredients;
+let Order = models.Orders;
 
 //
 
@@ -20,9 +21,32 @@ let sayHi = function (req, res) {
 
 //
 
+let ingredients = function (req, res) {
+    res.render("ingredients");
+};
+
+//
+
+let addNewIngredient = function (req, res) {
+    let newIngredient = new Ingredient({
+        name: req.body.ingredientName,
+        price: req.body.ingredientPrice,
+        inStock: true
+    });
+
+    newIngredient.save(function (err, ingredient) {
+        if (err) return console.error(err);
+        res.send(ingredient)
+    });
+};
+
+//
+
 let requestHandlers = {
     sayHi,
-    home
+    home,
+    ingredients,
+    addNewIngredient
 }
 
 module.exports = requestHandlers;
