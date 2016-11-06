@@ -2,11 +2,11 @@
 
 // promise resolve and reject callbacks
 
-let onSuccess = function (data, status) {
-  $("#result").html(data);
+var onSuccess = function (data, status) {
+  $("#result").append("<li>Ingredient: " + data.name + ", Price: $" + data.price + ", In Stock: " + data.inStock + '</li>'); 
 };
 
-let onError = function (data, status) {
+var onError = function (data, status) {
   console.log("status", status);
   console.log("error", data);
 };

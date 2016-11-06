@@ -22,7 +22,11 @@ let sayHi = function (req, res) {
 //
 
 let ingredients = function (req, res) {
-    res.render("ingredients");
+    Ingredient
+        .find({})
+        .exec(function (err, result) {
+            res.render("ingredients", { ingredients: result });
+        })
 };
 
 //
