@@ -9,21 +9,9 @@ let Order = models.Orders;
 
 //
 
-let home = function (req, res) {
-    res.render('home');
-}
-
-//
-
-let sayHi = function (req, res) {
-    res.send("<h3>Ready to Munch?</h3>");
-};
-
-//
-
 let ingredients = function (req, res) {
     Ingredient
-        .find({})
+        .find()
         .exec(function (err, result) {
             res.render("ingredients", { ingredients: result });
         })
@@ -44,13 +32,16 @@ let addNewIngredient = function (req, res) {
     });
 };
 
+let voidFun = function (req, res) {
+    return
+}
+
 //
 
 let requestHandlers = {
-    sayHi,
-    home,
     ingredients,
-    addNewIngredient
+    addNewIngredient,
+    voidFun
 }
 
 module.exports = requestHandlers;
