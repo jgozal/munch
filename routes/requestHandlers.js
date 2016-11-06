@@ -9,7 +9,7 @@ let Order = models.Orders;
 
 //
 
-let ingredients = function (req, res) {
+let listIngredients = function (req, res) {
     Ingredient
         .find()
         .exec(function (err, result) {
@@ -28,7 +28,7 @@ let addNewIngredient = function (req, res) {
 
     newIngredient.save(function (err, ingredient) {
         if (err) return console.error(err);
-        res.send(ingredient)
+        res.send('/ingredients') // route to load content
     });
 };
 
@@ -39,7 +39,7 @@ let voidFun = function (req, res) {
 //
 
 let requestHandlers = {
-    ingredients,
+    listIngredients,
     addNewIngredient,
     voidFun
 }
