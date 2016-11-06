@@ -1,6 +1,6 @@
 'use strict'
 
-let loadContent = function(route){
+var loadContent = function(route){
   $('body').load(route);
 }
 
