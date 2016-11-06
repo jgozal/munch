@@ -5,7 +5,7 @@ let path = require('path');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-let hbs = require('express-handlebars');
+let exphbs = require('express-handlebars');
 let mongoose = require('mongoose');
 
 let routes = require('./routes/routes');
@@ -18,11 +18,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.engine('handlebars', hbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.engine('.hbs', exphbs({
+	extname: '.hbs',
+	defaultLayout: 'main'
+}));
+app.set('view engine', '.hbs');
+
+let port = process.env.PORT || 8080; 
 
 app.use('/', routes);
 mongoose.connect('mongodb://localhost/ingredients');
 
-app.listen(8080);
-console.log('Server Started')
+app.listen(port);
+console.log('Server listening on port ' + port)
