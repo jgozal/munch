@@ -9,29 +9,57 @@ let Order = models.Orders;
 
 // Lists all ingredients
 
-let listIngredients = function (req, res) {
+let listIngredients = function(req, res) {
     Ingredient
         .find()
-        .exec(function (err, result) {
+        .exec(function(err, result) {
             res.render("ingredients", { ingredients: result });
         })
 };
 
 // Adds new ingredient to the db
 
-let addNewIngredient = function (req, res) {
+
+let inStockHandler = function(ingredientName) {
+    return new Promise(function(resolve, reject) {
+        Ingredient.find({ name: ingredientName }, function(error, result) {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(result[0].inStock);
+        })
+    })
+}
+
+
+let updateHandler = function(prop, data, req, res) {
+    Ingredient.update({ name: req.body.ingredientName }, {
+        [prop]: data
+    }, function(err, raw) {
+        if (err) {
+            console.log(err);
+            res.send('/ingredients');
+        } else {
+            console.log(raw);
+            res.send('/ingredients');
+        }
+    })
+}
+
+let addNewIngredient = function(req, res) {
     let newIngredient = new Ingredient({
         name: req.body.ingredientName,
         price: req.body.ingredientPrice,
         inStock: true
     });
 
-    Ingredient.find({ name: req.body.ingredientName }, function (err, docs) {
+    Ingredient.find({ name: req.body.ingredientName }, function(err, docs) {
         if (docs.length) {
             console.log(req.body.ingredientName + ' already exists.');
             res.send('/ingredients');
         } else {
-            newIngredient.save(function (err, ingredient) {
+            newIngredient.save(function(err, ingredient) {
                 if (err) return console.error(err);
                 res.send('/ingredients'); // route to load content
             });
@@ -39,30 +67,15 @@ let addNewIngredient = function (req, res) {
     });
 };
 
-let updateIngredient = function (req, res) {
-    let prop, data;
-    if(req.originalUrl === '/ingredients/edit') {
-        prop = 'price'; 
-        data = req.body.ingredientPrice;
-    } else if(req.originalUrl === '/ingredients/disable'){
-        prop = 'inStock';
-        data =  !(Ingredient.find({name: req.body.ingredientName}, 'inStock')._fields.inStock);
+let updateIngredient = function(req, res) {
+    if (req.originalUrl === '/ingredients/edit') {
+        updateHandler('price', req.body.ingredientPrice, req, res);
+    } else if (req.originalUrl === '/ingredients/disable') {
+        inStockHandler(req.body.ingredientName).then(function(bool) { updateHandler('inStock', !bool, req, res) });
     }
-    Ingredient.update({ name: req.body.ingredientName }, {
-        [prop]: data
-    }, function (err, raw) {
-        if(err){ 
-            console.log(err);
-            res.send('/ingredients');
-        }else{
-            console.log(raw);
-            res.send('/ingredients');
-        }
-    })
 }
 
-
-let voidFun = function (req, res) {
+let voidFun = function(req, res) {
     return
 }
 
