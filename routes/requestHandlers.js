@@ -33,16 +33,16 @@ let inStockHandler = function(ingredientName) {
 }
 
 
-let updateHandler = function(prop, data, req, res) {
+let updateHandler = function(prop, data, req, res, done) {
     Ingredient.update({ name: req.body.ingredientName }, {
         [prop]: data
     }, function(err, raw) {
         if (err) {
             console.log(err);
-            res.send('/ingredients');
+            res.send('/error');
         } else {
             console.log(raw);
-            res.send('/ingredients');
+            if(done) res.send('/ingredients');
         }
     })
 }
@@ -69,9 +69,11 @@ let addNewIngredient = function(req, res) {
 
 let updateIngredient = function(req, res) {
     if (req.originalUrl === '/ingredients/edit') {
-        updateHandler('price', req.body.ingredientPrice, req, res);
+        // I do realize this won't scale very well'
+        updateHandler('price',req.body.ingredientNewPrice, req, res, false); 
+        updateHandler('name', req.body.ingredientNewName, req, res, true);
     } else if (req.originalUrl === '/ingredients/disable') {
-        inStockHandler(req.body.ingredientName).then(function(bool) { updateHandler('inStock', !bool, req, res) });
+        inStockHandler(req.body.ingredientName).then(function(bool) { updateHandler('inStock', !bool, req, res, true) });
     }
 }
 
