@@ -9,20 +9,22 @@ let Order = models.Orders;
 
 // Lists all ingredients
 
-let listIngredients = function(req, res) {
+let listIngredients = function (req, res) {
+    let view;
+    (req.originalUrl === '/ingredients') ? view = 'ingredients' : view = 'order';
     Ingredient
         .find()
-        .exec(function(err, result) {
-            res.render("ingredients", { ingredients: result });
+        .exec(function (err, result) {
+            res.render(view, { ingredients: result });
         })
 };
 
 // Adds new ingredient to the db
 
 
-let inStockHandler = function(ingredientName) {
-    return new Promise(function(resolve, reject) {
-        Ingredient.find({ name: ingredientName }, function(error, result) {
+let inStockHandler = function (ingredientName) {
+    return new Promise(function (resolve, reject) {
+        Ingredient.find({ name: ingredientName }, function (error, result) {
             if (error) {
                 reject(error);
                 return;
@@ -33,33 +35,33 @@ let inStockHandler = function(ingredientName) {
 }
 
 
-let updateHandler = function(prop, data, req, res, done) {
+let updateHandler = function (prop, data, req, res, done) {
     Ingredient.update({ name: req.body.ingredientName }, {
         [prop]: data
-    }, function(err, raw) {
+    }, function (err, raw) {
         if (err) {
             console.log(err);
             res.send('/error');
         } else {
             console.log(raw);
-            if(done) res.send('/ingredients');
+            if (done) res.send('/ingredients');
         }
     })
 }
 
-let addNewIngredient = function(req, res) {
+let addNewIngredient = function (req, res) {
     let newIngredient = new Ingredient({
         name: req.body.ingredientName,
         price: req.body.ingredientPrice,
         inStock: true
     });
 
-    Ingredient.find({ name: req.body.ingredientName }, function(err, docs) {
+    Ingredient.find({ name: req.body.ingredientName }, function (err, docs) {
         if (docs.length) {
             console.log(req.body.ingredientName + ' already exists.');
             res.send('/ingredients');
         } else {
-            newIngredient.save(function(err, ingredient) {
+            newIngredient.save(function (err, ingredient) {
                 if (err) return console.error(err);
                 res.send('/ingredients'); // route to load content
             });
@@ -67,17 +69,30 @@ let addNewIngredient = function(req, res) {
     });
 };
 
-let updateIngredient = function(req, res) {
+let updateIngredient = function (req, res) {
     if (req.originalUrl === '/ingredients/edit') {
         // I do realize this won't scale very well'
-        updateHandler('price',req.body.ingredientNewPrice, req, res, false); 
+        updateHandler('price', req.body.ingredientNewPrice, req, res, false);
         updateHandler('name', req.body.ingredientNewName, req, res, true);
     } else if (req.originalUrl === '/ingredients/disable') {
-        inStockHandler(req.body.ingredientName).then(function(bool) { updateHandler('inStock', !bool, req, res, true) });
+        inStockHandler(req.body.ingredientName).then(function (bool) { updateHandler('inStock', !bool, req, res, true) });
     }
 }
 
-let voidFun = function(req, res) {
+let addNewOrder = function (req, res) {
+    let newOrder = new Order({
+        name: req.body.customerName,
+        ingredients: JSON.parse(req.body.ingredientName)
+    });
+
+    newOrder.save(function (err, order) {
+        if (err) return console.error(err);
+        res.send('/order'); // route to load content
+    });
+}
+
+
+let voidFun = function (req, res) {
     return
 }
 
@@ -87,6 +102,7 @@ let requestHandlers = {
     listIngredients,
     addNewIngredient,
     updateIngredient,
+    addNewOrder,
     voidFun
 }
 

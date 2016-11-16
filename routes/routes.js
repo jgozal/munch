@@ -9,8 +9,8 @@ router.post('/ingredients/add', rh.addNewIngredient); // Adds a new ingredient t
 router.post('/ingredients/edit', rh.updateIngredient); // Updates name and price for the ingredient and reflects this change on the page
 router.post('/ingredients/disable', rh.updateIngredient); // Assigns False boolean to inStock property of Ingredient in database and shows ingredient as out-of-stock on page
 
-router.get('/order/', rh.voidFun); // Shows a form with a checklist of ingredients to submit orders
-router.post('/order/make', rh.voidFun); // Creates and order
+router.get('/order', rh.listIngredients); // Shows a form with a checklist of ingredients to submit orders
+router.post('/order/make', rh.addNewOrder); // Creates an order
 
 router.get('/kitchen', rh.voidFun); // Shows all pending orders
 router.delete('/kitchen/complete', rh.voidFun); // Deletes order from pending orders

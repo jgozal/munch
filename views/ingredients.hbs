@@ -8,8 +8,15 @@
 
 <h3>Ingredients</h3>
 
-<ol id="result">
-    {{> ingredient_list }}
+<ol>
+    {{#each ingredients}}
+    <li class="ingredientList"> 
+        Ingredient: {{this.name}} <br>
+        Price: ${{this.price}} <br>
+        In Stock: {{this.inStock}} <br>
+        <br>
+    </li>
+    {{/each}}
 </ol>
 
 

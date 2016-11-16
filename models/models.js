@@ -10,7 +10,7 @@ let Ingredients = mongoose.Schema({
 });
 
 let Orders = mongoose.Schema({
-  number: Number,
+  name: String,
   ingredients: [String]
 });
 
