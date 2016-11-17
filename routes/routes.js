@@ -12,8 +12,8 @@ router.post('/ingredients/disable', rh.updateIngredient); // Assigns False boole
 router.get('/order', rh.listIngredients); // Shows a form with a checklist of ingredients to submit orders
 router.post('/order/make', rh.addNewOrder); // Creates an order
 
-router.get('/kitchen', rh.voidFun); // Shows all pending orders
-router.delete('/kitchen/complete', rh.voidFun); // Deletes order from pending orders
+router.get('/kitchen', rh.listOrders); // Shows all pending orders
+router.delete('/kitchen/complete', rh.completeOrder); // Deletes order from pending orders
 
 
 module.exports = router;

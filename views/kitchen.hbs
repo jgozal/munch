@@ -1,0 +1,12 @@
+<h3>Pending Orders</h3>
+
+<ol>
+    {{#each orders}}
+    <li class="orderList"> 
+        Customer: {{this.name}} <br>
+        Ingredients: {{this.ingredients}} <br>
+        <input class="completeOrder" type="submit" value="Done!"> <br>
+        <br>
+    </li>
+    {{/each}}
+</ol>

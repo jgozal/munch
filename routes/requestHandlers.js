@@ -92,18 +92,35 @@ let addNewOrder = function (req, res) {
 }
 
 
-let voidFun = function (req, res) {
-    return
-}
+// Lists all pending orders
 
-//
+let listOrders = function (req, res) {
+    Order
+        .find()
+        .exec(function (err, result) {
+            res.render('kitchen', { orders: result });
+        })
+};
+
+let completeOrder = function (req, res) {
+    Order
+        .find()
+        .exec(function (err, result) {
+            Order
+                .remove(result[req.body.orderNumber])
+                .exec(function (err, result) {
+                    res.send('/kitchen'); // route to load content
+                })
+        })
+};
 
 let requestHandlers = {
     listIngredients,
     addNewIngredient,
     updateIngredient,
     addNewOrder,
-    voidFun
+    listOrders,
+    completeOrder
 }
 
 module.exports = requestHandlers;
