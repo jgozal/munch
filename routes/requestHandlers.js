@@ -21,7 +21,6 @@ let listIngredients = function (req, res) {
 
 // Adds new ingredient to the db
 
-
 let inStockHandler = function (ingredientName) {
     return new Promise(function (resolve, reject) {
         Ingredient.find({ name: ingredientName }, function (error, result) {
@@ -101,6 +100,8 @@ let listOrders = function (req, res) {
             res.render('kitchen', { orders: result });
         })
 };
+
+// Deletes completed order
 
 let completeOrder = function (req, res) {
     Order

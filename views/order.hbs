@@ -6,7 +6,7 @@ Your Name: <input  id="customerName" type="text"><br>
 
 <ol>
     {{#each ingredients}}
-   	<input type="checkbox" class="ingredientOrder" {{#unless this.inStock}} disabled {{/unless}} name={{this.name}} value= > {{this.name}} | ${{this.price}} <br>
+   	<input type="checkbox" class="ingredientOrder" {{#unless this.inStock}} disabled {{/unless}} name={{this.name}} value={{this.price}}> {{this.name}} | ${{this.price}} <br>
     {{/each}}
 </ol>
 
