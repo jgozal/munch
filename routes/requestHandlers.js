@@ -7,20 +7,6 @@ let models = require('../models/models.js');
 let Ingredient = models.Ingredients;
 let Order = models.Orders;
 
-// Lists all ingredients
-
-let listIngredients = function (req, res) {
-    let view;
-    (req.originalUrl === '/ingredients') ? view = 'ingredients' : view = 'order';
-    Ingredient
-        .find()
-        .exec(function (err, result) {
-            res.render(view, { ingredients: result });
-        })
-};
-
-// Adds new ingredient to the db
-
 let inStockHandler = function (ingredientName) {
     return new Promise(function (resolve, reject) {
         Ingredient.find({ name: ingredientName }, function (error, result) {
@@ -48,6 +34,20 @@ let updateHandler = function (prop, data, req, res, done) {
     })
 }
 
+// Lists all ingredients
+
+let listIngredients = function (req, res) {
+    let view;
+    (req.originalUrl === '/ingredients') ? view = 'ingredients' : view = 'order';
+    Ingredient
+        .find()
+        .exec(function (err, result) {
+            res.render(view, { ingredients: result });
+        })
+};
+
+// Adds new ingredient to the db
+
 let addNewIngredient = function (req, res) {
     let newIngredient = new Ingredient({
         name: req.body.ingredientName,
@@ -70,7 +70,7 @@ let addNewIngredient = function (req, res) {
 
 let updateIngredient = function (req, res) {
     if (req.originalUrl === '/ingredients/edit') {
-        // I do realize this won't scale very well'
+        // I do realize this won't scale very well but it's OK for this small app
         updateHandler('price', req.body.ingredientNewPrice, req, res, false);
         updateHandler('name', req.body.ingredientNewName, req, res, true);
     } else if (req.originalUrl === '/ingredients/disable') {
