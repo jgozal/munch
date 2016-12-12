@@ -1,22 +1,26 @@
-<h3>Manage Ingredients</h3>
+<h2 class="centered">Manage Ingredients</h2>
 
+<div class="centered">
 <button id="addNewIngredient" type="button">Add</button>
 <button id="editIngredient" type="button">Edit</button>
 <button id="disableIngredient" type="button">Toggle Stock</button>
+</div>
 <br>
 
-
-<h3>Ingredients</h3>
-
-<ol>
+<ul style="list-style-type:none">
     {{#each ingredients}}
-    <li class="ingredientList"> 
-        Ingredient: {{this.name}} <br>
-        Price: ${{this.price}} <br>
-        In Stock: {{this.inStock}} <br>
-        <br>
+    <li class="ingredientList box" style="text-align:center"> 
+    <br>
+       {{this.name}} : ${{this.price}}  
+       {{#if this.inStock}}
+        <span style="color:green;">&#10003;</span>
+        {{else}}
+        <span style="color:red;">&#10007;</span>
+       {{/if}}
+    <br>
+    <br>
     </li>
     {{/each}}
-</ol>
+</ul>
 
 

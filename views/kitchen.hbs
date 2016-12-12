@@ -1,12 +1,14 @@
-<h3>Pending Orders</h3>
+<h2 class="centered">Pending Orders</h2>
 
-<ol>
+<br>
+
+<ul style="list-style-type:none">
     {{#each orders}}
-    <li class="orderList"> 
-        Customer: {{this.name}} <br>
-        Ingredients: {{this.ingredients}} <br>
-        <input class="completeOrder" type="submit" value="Done!"> <br>
+    <li class="orderList box" style="text-align:center">
+        <br> 
+        {{this.name}} &#10132 {{this.ingredients}}<br>
+        <input class="completeOrder" type="submit" value="Done!"><br>
         <br>
     </li>
     {{/each}}
-</ol>
+</ul>

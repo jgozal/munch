@@ -1,12 +1,11 @@
-<h3>Make your order!</h3>
+<h2 id="title">Make your order!</h2>
 
 Your Name: <input  id="customerName" type="text"><br>
-
-<h3>Ingredients</h3>
+<br>
 
 <ol>
     {{#each ingredients}}
-   	<input type="checkbox" class="ingredientOrder" {{#unless this.inStock}} disabled {{/unless}} name={{this.name}} value={{this.price}}> {{this.name}} | ${{this.price}} <br>
+   	<input type="checkbox" class="ingredientOrder" {{#unless this.inStock}} disabled {{/unless}} name={{this.name}} value={{this.price}}> {{this.name}} | ${{this.price}}<br>
     {{/each}}
 </ol>
 
